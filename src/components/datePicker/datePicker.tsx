@@ -45,32 +45,31 @@ const DatePicker = ({
     </View>
   );
   return (
-    <View style={styles.container}>
-      <Modal
-        transparent
-        visible={true}
-        onRequestClose={onPressClose}
-        animationType="none">
-        <View style={styles.container}>
-          <View style={styles.modalView}>
-            {renderHeader()}
-            <Calendar
-              onDayPress={day => {
-                setSelected(day.dateString);
-                setWeek(getCurrentWeek(day.dateString));
-              }}
-              markedDates={{
-                [selected]: {
-                  selected: true,
-                  disableTouchEvent: true,
-                },
-              }}
-            />
-            {renderButtons()}
-          </View>
+    <Modal
+      transparent
+      visible={true}
+      onRequestClose={onPressClose}
+      animationType="none">
+      <View style={styles.container}>
+        <View style={styles.modalView}>
+          {renderHeader()}
+          <Calendar
+            current={selectedDate}
+            onDayPress={day => {
+              setSelected(day.dateString);
+              setWeek(getCurrentWeek(day.dateString));
+            }}
+            markedDates={{
+              [selected]: {
+                selected: true,
+                disableTouchEvent: true,
+              },
+            }}
+          />
+          {renderButtons()}
         </View>
-      </Modal>
-    </View>
+      </View>
+    </Modal>
   );
 };
 

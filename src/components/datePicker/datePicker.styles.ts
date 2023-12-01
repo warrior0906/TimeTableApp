@@ -6,7 +6,8 @@ export const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: scaling.hs(90),
+    paddingTop: scaling.hs(90),
+    backgroundColor: 'rgba(0, 0, 3, 0.2)',
   },
   modalView: {
     width: '90%',

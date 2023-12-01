@@ -42,7 +42,7 @@ const WeekSelector = ({
   return (
     <View style={styles.container}>
       {renderIcon(icons.chevronLeft, 'prev')}
-      <TouchableOpacity onPress={onWeekPress}>
+      <TouchableOpacity onPress={onWeekPress} style={styles.week}>
         <Text>{dateRange}</Text>
       </TouchableOpacity>
       {renderIcon(icons.chevronRight, 'next')}
