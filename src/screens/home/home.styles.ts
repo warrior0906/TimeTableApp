@@ -10,6 +10,9 @@ export const styles = StyleSheet.create({
     paddingVertical: scaling.hs(16),
   },
   itemContainer: {
+    alignItems: 'center',
+  },
+  dateView: {
     width: scaling.hs(40),
     paddingHorizontal: scaling.hs(7),
     paddingVertical: scaling.vs(14),
@@ -30,5 +33,12 @@ export const styles = StyleSheet.create({
   date: {
     fontWeight: '500',
     opacity: 0.8,
+  },
+  dot: {
+    width: scaling.hs(4),
+    height: scaling.hs(4),
+    backgroundColor: '#40ceff',
+    borderRadius: scaling.hs(4),
+    marginTop: scaling.vs(8),
   },
 });
