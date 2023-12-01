@@ -7,14 +7,16 @@ export const fetchInitials = (name: string) => {
     .join('');
 };
 
+export const currentDate = () => moment(new Date()).format('YYYY-MM-DD');
+
 /**
  *
  * @param date = timestamp
  * @returns the week for the selected date in "YYYY-MM-DD" format
  * from SUN - SAT.
  */
-export const getCurrentWeek = (date?: number) => {
-  let curr = date ? new Date(date) : new Date();
+export const getCurrentWeek = (date: string = currentDate()) => {
+  let curr = new Date(date);
   let week = [];
 
   for (let i = 0; i < 7; i++) {

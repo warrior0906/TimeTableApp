@@ -1,22 +1,22 @@
 import React, {useState} from 'react';
-import {FlatList, Text, View} from 'react-native';
+import {FlatList, Text, TouchableOpacity, View} from 'react-native';
 import {DatePicker, Header, WeekSelector} from '../../components';
 import {styles} from './home.styles';
-import {getCurrentWeek, getWeek} from '../../utils';
+import {currentDate, getCurrentWeek, getWeek} from '../../utils';
 import moment from 'moment';
 
 const HomeScreen = () => {
   const [showCalendar, setShowCalendar] = useState<boolean>(false);
   const [selectedWeek, setSelectedWeek] = useState<Array<string>>(
-    getCurrentWeek(Date.now()) || [],
+    getCurrentWeek(currentDate()) || [],
   );
-  const [selectedDate, setSelectedDate] = useState(false);
+  const [selectedDate, setSelectedDate] = useState<string>(currentDate());
 
   const renderItem = ({item}: {item: string}) => (
-    <View style={styles.itemContainer}>
+    <TouchableOpacity style={styles.itemContainer}>
       <Text style={styles.day}>{moment(item).format('ddd')}</Text>
       <Text style={styles.date}>{moment(item).format('DD')}</Text>
-    </View>
+    </TouchableOpacity>
   );
 
   return (
@@ -35,7 +35,7 @@ const HomeScreen = () => {
       {showCalendar && (
         <DatePicker
           onPressClose={() => setShowCalendar(false)}
-          selectedDate={''}
+          selectedDate={selectedDate}
           selectedWeek={selectedWeek}
           setSelectedWeek={(week: Array<string>) => setSelectedWeek(week)}
         />

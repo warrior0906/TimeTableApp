@@ -3,8 +3,7 @@ import {Button, Modal, Text, TouchableOpacity, View} from 'react-native';
 import {Calendar} from 'react-native-calendars';
 import {styles} from './datePicker.styles';
 import {IDatePickerInterProps} from './datePicker.interface';
-import {getCurrentWeek, getWeek} from '../../utils';
-import moment from 'moment';
+import {currentDate, getCurrentWeek, getWeek} from '../../utils';
 
 const DatePicker = ({
   onPressClose,
@@ -20,7 +19,7 @@ const DatePicker = ({
       <Text>{getWeek(week)}</Text>
       <TouchableOpacity
         onPress={() => {
-          setSelected(moment(new Date()).format('YYYY-MM-DD'));
+          setSelected(currentDate());
           setWeek(getCurrentWeek()); // need to recheck this
         }}>
         <Text style={styles.today}>Today</Text>
@@ -56,7 +55,7 @@ const DatePicker = ({
             <Calendar
               onDayPress={day => {
                 setSelected(day.dateString);
-                setWeek(getCurrentWeek(day.timestamp));
+                setWeek(getCurrentWeek(day.dateString));
               }}
               markedDates={{
                 [selected]: {
