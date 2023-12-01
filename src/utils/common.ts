@@ -25,14 +25,45 @@ export const getCurrentWeek = (date: string = currentDate()) => {
     week.push(day);
   }
 
-  console.log('curr', curr, new Date(), date);
-  console.log('week', week);
-
   return week;
+};
+
+export const getPrevWeek = (date: string = currentDate()) => {
+  let curr = new Date(date);
+  const first = curr.getDate() - curr.getDay() - 1;
+  const day = new Date(curr.setDate(first)).toISOString().slice(0, 10);
+  return getCurrentWeek(day);
+};
+
+export const getNextWeek = (date: string = currentDate()) => {
+  let curr = new Date(date);
+  const first = curr.getDate() - curr.getDay() + 7;
+  const day = new Date(curr.setDate(first)).toISOString().slice(0, 10);
+  return getCurrentWeek(day);
 };
 
 export const getWeek = (week: Array<string>) => {
   const sunday = moment(week[0]).format('DD MMM');
   const saturday = moment(week[6]).format('DD MMM');
   return `${sunday} - ${saturday}`;
+};
+
+export const getLastWeekDate = (date: string = currentDate()) => {
+  const curr = new Date(date);
+  const lastWeek = new Date(
+    curr.getFullYear(),
+    curr.getMonth(),
+    curr.getDate() - 7,
+  );
+  return moment(lastWeek).format('YYYY-MM-DD');
+};
+
+export const getNextWeekDate = (date: string = currentDate()) => {
+  const curr = new Date(date);
+  const lastWeek = new Date(
+    curr.getFullYear(),
+    curr.getMonth(),
+    curr.getDate() + 7,
+  );
+  return moment(lastWeek).format('YYYY-MM-DD');
 };

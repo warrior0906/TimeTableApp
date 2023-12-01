@@ -13,7 +13,12 @@ const HomeScreen = () => {
   const [selectedDate, setSelectedDate] = useState<string>(currentDate());
 
   const renderItem = ({item}: {item: string}) => (
-    <TouchableOpacity style={styles.itemContainer}>
+    <TouchableOpacity
+      style={[
+        styles.itemContainer,
+        item === selectedDate ? styles.selectedContainer : null,
+      ]}
+      onPress={() => setSelectedDate(item)}>
       <Text style={styles.day}>{moment(item).format('ddd')}</Text>
       <Text style={styles.date}>{moment(item).format('DD')}</Text>
     </TouchableOpacity>
@@ -23,8 +28,11 @@ const HomeScreen = () => {
     <View style={styles.rootContainer}>
       <Header />
       <WeekSelector
+        selectedDate={selectedDate}
         dateRange={getWeek(selectedWeek)}
         onWeekPress={() => setShowCalendar(true)}
+        setSelectedWeek={setSelectedWeek}
+        setSelectedDate={setSelectedDate}
       />
       <FlatList
         data={selectedWeek}
@@ -38,6 +46,7 @@ const HomeScreen = () => {
           selectedDate={selectedDate}
           selectedWeek={selectedWeek}
           setSelectedWeek={(week: Array<string>) => setSelectedWeek(week)}
+          setSelectedDate={setSelectedDate}
         />
       )}
     </View>

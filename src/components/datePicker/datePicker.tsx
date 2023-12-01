@@ -7,9 +7,10 @@ import {currentDate, getCurrentWeek, getWeek} from '../../utils';
 
 const DatePicker = ({
   onPressClose,
-  selectedDate = '2023-12-06',
+  selectedDate,
   selectedWeek,
   setSelectedWeek,
+  setSelectedDate,
 }: IDatePickerInterProps) => {
   const [selected, setSelected] = useState<string>(selectedDate);
   const [week, setWeek] = useState<Array<string>>(selectedWeek);
@@ -35,6 +36,7 @@ const DatePicker = ({
           color={'#FFFF'}
           onPress={() => {
             setSelectedWeek(week);
+            setSelectedDate(selected);
             onPressClose();
           }}
         />

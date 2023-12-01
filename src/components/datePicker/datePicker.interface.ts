@@ -6,4 +6,6 @@ export interface IDatePickerInterProps {
   selectedWeek: Array<string>;
 
   setSelectedWeek: (week: Array<string>) => void;
+
+  setSelectedDate: (date: string) => void;
 }
