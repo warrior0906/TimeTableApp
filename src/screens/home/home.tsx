@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useMemo, useState} from 'react';
 import {FlatList, Text, TouchableOpacity, View} from 'react-native';
 import {DatePicker, Header, WeekSelector} from '../../components';
 import {styles} from './home.styles';
@@ -13,9 +13,10 @@ const HomeScreen = () => {
   );
   const [selectedDate, setSelectedDate] = useState<string>(currentDate());
 
-  const initialScrollIndex =
-    getCurrentWeek(currentDate()).findIndex(e => e === currentDate()) || 0;
-
+  const initialScrollIndex = useMemo(
+    () => selectedWeek.findIndex(e => e === selectedDate) || 1,
+    [selectedWeek, selectedDate],
+  );
   const widthOfEachItem = scaling.hs(328);
   const marginOnEachSideOfEachItem = scaling.hs(16);
 
@@ -25,7 +26,7 @@ const HomeScreen = () => {
     setSelectedDate(item);
     flatListRef?.current?.scrollToIndex({
       animated: true,
-      index: index,
+      index: index - 1,
     });
   };
 
@@ -52,20 +53,29 @@ const HomeScreen = () => {
     );
   };
 
-  const renderSubjects = ({item}: {item: string}) => (
-    <View
-      style={[
-        styles.subjectItemContainer,
-        {width: widthOfEachItem, marginHorizontal: marginOnEachSideOfEachItem},
-      ]}>
-      {[1, 2, 3, 4]?.map(e => (
-        <View style={styles.subjectItem} key={e}>
-          <Text>{`Math ${item}`}</Text>
-          <Text>08:00 - 08:30</Text>
-        </View>
-      ))}
-    </View>
-  );
+  const renderSubjects = ({item}: {item: string}) => {
+    const day = moment(item).format('ddd');
+    if (day === 'Sun') {
+      return <></>;
+    }
+    return (
+      <View
+        style={[
+          styles.subjectItemContainer,
+          {
+            width: widthOfEachItem,
+            marginHorizontal: marginOnEachSideOfEachItem,
+          },
+        ]}>
+        {[1, 2, 3, 4]?.map(e => (
+          <View style={styles.subjectItem} key={e}>
+            <Text>{`Math ${item}`}</Text>
+            <Text>08:00 - 08:30</Text>
+          </View>
+        ))}
+      </View>
+    );
+  };
 
   return (
     <View style={styles.rootContainer}>
