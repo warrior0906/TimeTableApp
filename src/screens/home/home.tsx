@@ -1,8 +1,8 @@
-import React, {useMemo, useState} from 'react';
+import React, {useEffect, useMemo, useState} from 'react';
 import {FlatList, Text, TouchableOpacity, View} from 'react-native';
 import {DatePicker, Header, WeekSelector} from '../../components';
 import {styles} from './home.styles';
-import {currentDate, getCurrentWeek, getWeek} from '../../utils';
+import {currentDate, getCurrentWeek, getNextDate, getWeek} from '../../utils';
 import moment from 'moment';
 import scaling from '../../utils/scaling';
 import {getData} from './home.constants';
@@ -25,6 +25,12 @@ const HomeScreen = () => {
   const marginOnEachSideOfEachItem = scaling.hs(16);
 
   const flatListRef = React.useRef();
+
+  useEffect(() => {
+    if (moment(selectedDate).format('ddd') === 'Sun') {
+      setSelectedDate(getNextDate(selectedDate));
+    }
+  }, [selectedDate]);
 
   const onPressDate = (item: string, index: number) => {
     setSelectedDate(item);
