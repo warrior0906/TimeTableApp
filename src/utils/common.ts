@@ -43,7 +43,7 @@ export const getNextWeek = (date: string = currentDate()) => {
 };
 
 export const getWeek = (week: Array<string>) => {
-  const sunday = moment(week[0]).format('DD MMM');
+  const sunday = moment(week[1]).format('DD MMM');
   const saturday = moment(week[6]).format('DD MMM');
   return `${sunday} - ${saturday}`;
 };

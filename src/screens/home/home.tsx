@@ -12,20 +12,28 @@ const HomeScreen = () => {
   );
   const [selectedDate, setSelectedDate] = useState<string>(currentDate());
 
-  const renderItem = ({item}: {item: string}) => (
-    <View style={styles.itemContainer}>
-      <TouchableOpacity
-        style={[
-          styles.dateView,
-          item === selectedDate ? styles.selectedContainer : null,
-        ]}
-        onPress={() => setSelectedDate(item)}>
-        <Text style={styles.day}>{moment(item).format('ddd')}</Text>
-        <Text style={styles.date}>{moment(item).format('DD')}</Text>
-      </TouchableOpacity>
-      {item === currentDate() && <View style={styles.dot} />}
-    </View>
-  );
+  const renderItem = ({item}: {item: string}) => {
+    const day = moment(item).format('ddd');
+    if (day === 'Sun') {
+      return <></>;
+    }
+    return (
+      <View style={styles.itemContainer}>
+        <TouchableOpacity
+          style={[
+            styles.dateView,
+            item === selectedDate ? styles.selectedContainer : null,
+          ]}
+          onPress={() => setSelectedDate(item)}>
+          <Text style={styles.day}>{day}</Text>
+          <View style={[item === selectedDate ? styles.selectedDate : null]}>
+            <Text style={styles.date}>{moment(item).format('DD')}</Text>
+          </View>
+        </TouchableOpacity>
+        {item === currentDate() && <View style={styles.dot} />}
+      </View>
+    );
+  };
 
   return (
     <View style={styles.rootContainer}>

@@ -5,8 +5,6 @@ export const styles = StyleSheet.create({
   container: {
     marginHorizontal: scaling.hs(16),
     marginTop: scaling.hs(12),
-    paddingVertical: scaling.vs(12),
-    paddingHorizontal: scaling.hs(12),
     borderRadius: scaling.hs(10),
     borderWidth: scaling.hs(1),
     borderColor: '#bababa',
@@ -18,5 +16,11 @@ export const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    paddingVertical: scaling.vs(12),
+  },
+  icon: {
+    paddingVertical: scaling.vs(12),
+    paddingHorizontal: scaling.hs(12),
+    borderColor: '#bababa',
   },
 });

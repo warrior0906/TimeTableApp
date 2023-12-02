@@ -15,6 +15,7 @@ import {
   getNextWeekDate,
   getPrevWeek,
 } from '../../utils';
+import scaling from '../../utils/scaling';
 
 const WeekSelector = ({
   selectedDate,
@@ -34,7 +35,14 @@ const WeekSelector = ({
   };
 
   const renderIcon = (icon: ImageSourcePropType, type: string) => (
-    <TouchableOpacity onPress={() => handleOnPressIcon(type)}>
+    <TouchableOpacity
+      onPress={() => handleOnPressIcon(type)}
+      style={[
+        styles.icon,
+        type === 'prev'
+          ? {borderRightWidth: scaling.hs(1)}
+          : {borderLeftWidth: scaling.hs(1)},
+      ]}>
       <Image source={icon} />
     </TouchableOpacity>
   );

@@ -7,7 +7,7 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     paddingTop: scaling.hs(90),
-    backgroundColor: 'rgba(0, 0, 3, 0.2)',
+    backgroundColor: 'rgba(0, 0, 3, 0.4)',
   },
   modalView: {
     width: '90%',

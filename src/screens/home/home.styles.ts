@@ -14,21 +14,27 @@ export const styles = StyleSheet.create({
   },
   dateView: {
     width: scaling.hs(40),
-    paddingHorizontal: scaling.hs(7),
-    paddingVertical: scaling.vs(14),
-    marginHorizontal: scaling.hs(4),
+    paddingTop: scaling.vs(16),
+    paddingBottom: scaling.vs(12),
+    marginHorizontal: scaling.hs(8),
     alignItems: 'center',
     borderRadius: scaling.hs(32),
     backgroundColor: '#ebebeb',
   },
   selectedContainer: {
     backgroundColor: '#40ceff',
+    paddingBottom: scaling.vs(6),
   },
   day: {
     fontSize: scaling.hs(12),
     fontWeight: '500',
     paddingBottom: scaling.vs(6),
     opacity: 0.67,
+  },
+  selectedDate: {
+    backgroundColor: '#FFF',
+    padding: scaling.vs(4),
+    borderRadius: scaling.hs(12),
   },
   date: {
     fontWeight: '500',
