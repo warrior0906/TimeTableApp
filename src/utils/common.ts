@@ -67,3 +67,13 @@ export const getNextWeekDate = (date: string = currentDate()) => {
   );
   return moment(lastWeek).format('YYYY-MM-DD');
 };
+
+export const getNextDate = (date: string = currentDate()) => {
+  const curr = new Date(date);
+  const nextDate = new Date(
+    curr.getFullYear(),
+    curr.getMonth(),
+    curr.getDate() + 1,
+  );
+  return moment(nextDate).format('YYYY-MM-DD');
+};

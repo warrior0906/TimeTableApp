@@ -47,4 +47,18 @@ export const styles = StyleSheet.create({
     borderRadius: scaling.hs(4),
     marginTop: scaling.vs(8),
   },
+  subjectItemContainer: {
+    width: scaling.hs(328),
+    marginHorizontal: scaling.hs(16),
+  },
+  subjectItem: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginVertical: scaling.hs(8),
+    paddingVertical: scaling.vs(12),
+    paddingHorizontal: scaling.hs(12),
+    borderWidth: 1,
+    borderRadius: scaling.hs(8),
+  },
 });

@@ -4,6 +4,7 @@ import {DatePicker, Header, WeekSelector} from '../../components';
 import {styles} from './home.styles';
 import {currentDate, getCurrentWeek, getWeek} from '../../utils';
 import moment from 'moment';
+import scaling from '../../utils/scaling';
 
 const HomeScreen = () => {
   const [showCalendar, setShowCalendar] = useState<boolean>(false);
@@ -12,7 +13,23 @@ const HomeScreen = () => {
   );
   const [selectedDate, setSelectedDate] = useState<string>(currentDate());
 
-  const renderItem = ({item}: {item: string}) => {
+  const initialScrollIndex =
+    getCurrentWeek(currentDate()).findIndex(e => e === currentDate()) || 0;
+
+  const widthOfEachItem = scaling.hs(328);
+  const marginOnEachSideOfEachItem = scaling.hs(16);
+
+  const flatListRef = React.useRef();
+
+  const onPressDate = (item: string, index: number) => {
+    setSelectedDate(item);
+    flatListRef?.current?.scrollToIndex({
+      animated: true,
+      index: index,
+    });
+  };
+
+  const renderItem = ({item, index}: {item: string; index: number}) => {
     const day = moment(item).format('ddd');
     if (day === 'Sun') {
       return <></>;
@@ -24,7 +41,7 @@ const HomeScreen = () => {
             styles.dateView,
             item === selectedDate ? styles.selectedContainer : null,
           ]}
-          onPress={() => setSelectedDate(item)}>
+          onPress={() => onPressDate(item, index)}>
           <Text style={styles.day}>{day}</Text>
           <View style={[item === selectedDate ? styles.selectedDate : null]}>
             <Text style={styles.date}>{moment(item).format('DD')}</Text>
@@ -34,6 +51,21 @@ const HomeScreen = () => {
       </View>
     );
   };
+
+  const renderSubjects = ({item}: {item: string}) => (
+    <View
+      style={[
+        styles.subjectItemContainer,
+        {width: widthOfEachItem, marginHorizontal: marginOnEachSideOfEachItem},
+      ]}>
+      {[1, 2, 3, 4]?.map(e => (
+        <View style={styles.subjectItem} key={e}>
+          <Text>{`Math ${item}`}</Text>
+          <Text>08:00 - 08:30</Text>
+        </View>
+      ))}
+    </View>
+  );
 
   return (
     <View style={styles.rootContainer}>
@@ -50,6 +82,20 @@ const HomeScreen = () => {
         renderItem={renderItem}
         horizontal
         style={styles.container}
+      />
+      <FlatList
+        data={selectedWeek}
+        renderItem={renderSubjects}
+        ref={flatListRef}
+        horizontal
+        pagingEnabled
+        showsHorizontalScrollIndicator={false}
+        initialScrollIndex={initialScrollIndex}
+        getItemLayout={(_, index) => ({
+          length: widthOfEachItem + 2 * marginOnEachSideOfEachItem, //  WIDTH + (MARGIN_HORIZONTAL * 2)
+          offset: (widthOfEachItem + 2 * marginOnEachSideOfEachItem) * index, //  ( WIDTH + (MARGIN_HORIZONTAL*2) ) * (index)
+          index,
+        })}
       />
       {showCalendar && (
         <DatePicker
