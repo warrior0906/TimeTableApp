@@ -2,7 +2,13 @@ import React, {useEffect, useMemo, useState} from 'react';
 import {FlatList, Text, TouchableOpacity, View} from 'react-native';
 import {DatePicker, Header, WeekSelector} from '../../components';
 import {styles} from './home.styles';
-import {currentDate, getCurrentWeek, getNextDate, getWeek} from '../../utils';
+import {
+  currentDate,
+  getCurrentWeek,
+  getNextDate,
+  getWeek,
+  isSunday,
+} from '../../utils';
 import moment from 'moment';
 import scaling from '../../utils/scaling';
 import {getData} from './home.constants';
@@ -27,22 +33,22 @@ const HomeScreen = () => {
   const flatListRef = React.useRef();
 
   useEffect(() => {
-    if (moment(selectedDate).format('ddd') === 'Sun') {
+    if (isSunday(selectedDate)) {
       setSelectedDate(getNextDate(selectedDate));
     }
   }, [selectedDate]);
 
   const onPressDate = (item: string, index: number) => {
+    console.log(index);
     setSelectedDate(item);
     flatListRef?.current?.scrollToIndex({
       animated: true,
-      index: index,
+      index: index - 1,
     });
   };
 
   const renderItem = ({item, index}: {item: any; index: number}) => {
-    const day = moment(item.date).format('ddd');
-    if (day === 'Sun') {
+    if (isSunday(item?.date)) {
       return <></>;
     }
     return (
@@ -53,7 +59,7 @@ const HomeScreen = () => {
             item.date === selectedDate ? styles.selectedContainer : null,
           ]}
           onPress={() => onPressDate(item.date, index)}>
-          <Text style={styles.day}>{day}</Text>
+          <Text style={styles.day}>{moment(item.date).format('ddd')}</Text>
           <View
             style={[item.date === selectedDate ? styles.selectedDate : null]}>
             <Text style={styles.date}>{moment(item.date).format('DD')}</Text>
@@ -65,8 +71,7 @@ const HomeScreen = () => {
   };
 
   const renderSubjects = ({item}: {item: any}) => {
-    const day = moment(item.date).format('ddd');
-    if (day === 'Sun') {
+    if (isSunday(item?.date)) {
       return <></>;
     }
     return (

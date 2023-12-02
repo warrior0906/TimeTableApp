@@ -9,6 +9,8 @@ export const fetchInitials = (name: string) => {
 
 export const currentDate = () => moment(new Date()).format('YYYY-MM-DD');
 
+export const isSunday = (date: string) => moment(date).format('ddd') === 'Sun';
+
 /**
  *
  * @param date = timestamp

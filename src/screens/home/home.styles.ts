@@ -6,7 +6,7 @@ export const styles = StyleSheet.create({
     // borderWidth: 1,
   },
   container: {
-    paddingHorizontal: scaling.hs(14),
+    marginHorizontal: scaling.hs(14),
     paddingVertical: scaling.hs(16),
   },
   itemContainer: {
