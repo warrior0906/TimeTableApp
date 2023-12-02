@@ -5,6 +5,7 @@ import {styles} from './home.styles';
 import {currentDate, getCurrentWeek, getWeek} from '../../utils';
 import moment from 'moment';
 import scaling from '../../utils/scaling';
+import {getData} from './home.constants';
 
 const HomeScreen = () => {
   const [showCalendar, setShowCalendar] = useState<boolean>(false);
@@ -14,9 +15,12 @@ const HomeScreen = () => {
   const [selectedDate, setSelectedDate] = useState<string>(currentDate());
 
   const initialScrollIndex = useMemo(
-    () => selectedWeek.findIndex(e => e === selectedDate) || 1,
+    () => selectedWeek.findIndex(e => e === selectedDate) - 1 || 0,
     [selectedWeek, selectedDate],
   );
+
+  const data = useMemo(() => getData(selectedWeek), [selectedWeek]);
+
   const widthOfEachItem = scaling.hs(328);
   const marginOnEachSideOfEachItem = scaling.hs(16);
 
@@ -26,12 +30,12 @@ const HomeScreen = () => {
     setSelectedDate(item);
     flatListRef?.current?.scrollToIndex({
       animated: true,
-      index: index - 1,
+      index: index,
     });
   };
 
-  const renderItem = ({item, index}: {item: string; index: number}) => {
-    const day = moment(item).format('ddd');
+  const renderItem = ({item, index}: {item: any; index: number}) => {
+    const day = moment(item.date).format('ddd');
     if (day === 'Sun') {
       return <></>;
     }
@@ -40,21 +44,22 @@ const HomeScreen = () => {
         <TouchableOpacity
           style={[
             styles.dateView,
-            item === selectedDate ? styles.selectedContainer : null,
+            item.date === selectedDate ? styles.selectedContainer : null,
           ]}
-          onPress={() => onPressDate(item, index)}>
+          onPress={() => onPressDate(item.date, index)}>
           <Text style={styles.day}>{day}</Text>
-          <View style={[item === selectedDate ? styles.selectedDate : null]}>
-            <Text style={styles.date}>{moment(item).format('DD')}</Text>
+          <View
+            style={[item.date === selectedDate ? styles.selectedDate : null]}>
+            <Text style={styles.date}>{moment(item.date).format('DD')}</Text>
           </View>
         </TouchableOpacity>
-        {item === currentDate() && <View style={styles.dot} />}
+        {item.date === currentDate() && <View style={styles.dot} />}
       </View>
     );
   };
 
-  const renderSubjects = ({item}: {item: string}) => {
-    const day = moment(item).format('ddd');
+  const renderSubjects = ({item}: {item: any}) => {
+    const day = moment(item.date).format('ddd');
     if (day === 'Sun') {
       return <></>;
     }
@@ -67,10 +72,10 @@ const HomeScreen = () => {
             marginHorizontal: marginOnEachSideOfEachItem,
           },
         ]}>
-        {[1, 2, 3, 4]?.map(e => (
-          <View style={styles.subjectItem} key={e}>
-            <Text>{`Math ${item}`}</Text>
-            <Text>08:00 - 08:30</Text>
+        {item.schedule?.map((e: any) => (
+          <View style={styles.subjectItem} key={e.subj}>
+            <Text>{`${e.subj} ${item.date}`}</Text>
+            <Text>{e.time}</Text>
           </View>
         ))}
       </View>
@@ -88,13 +93,13 @@ const HomeScreen = () => {
         setSelectedDate={setSelectedDate}
       />
       <FlatList
-        data={selectedWeek}
+        data={data}
         renderItem={renderItem}
         horizontal
         style={styles.container}
       />
       <FlatList
-        data={selectedWeek}
+        data={data}
         renderItem={renderSubjects}
         ref={flatListRef}
         horizontal
