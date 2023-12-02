@@ -111,6 +111,12 @@ const HomeScreen = () => {
           offset: (widthOfEachItem + 2 * marginOnEachSideOfEachItem) * index, //  ( WIDTH + (MARGIN_HORIZONTAL*2) ) * (index)
           index,
         })}
+        onMomentumScrollEnd={ev => {
+          const newIndex = Math.round(
+            ev.nativeEvent.contentOffset.x / widthOfEachItem,
+          );
+          setSelectedDate(selectedWeek[newIndex + 1]);
+        }}
       />
       {showCalendar && (
         <DatePicker
