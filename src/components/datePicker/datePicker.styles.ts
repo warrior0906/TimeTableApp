@@ -44,5 +44,10 @@ export const styles = StyleSheet.create({
     backgroundColor: '#3393ba',
     borderRadius: scaling.hs(8),
     marginVertical: scaling.vs(12),
+    paddingVertical: scaling.vs(6),
+    alignItems: 'center',
   },
+  applyTxt: {color: '#FFF'},
+  cancel: {backgroundColor: '#FFF'},
+  cancelTxt: {color: '#3393ba'},
 });

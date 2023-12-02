@@ -21,7 +21,7 @@ const DatePicker = ({
       <TouchableOpacity
         onPress={() => {
           setSelected(currentDate());
-          setWeek(getCurrentWeek()); // need to recheck this
+          setWeek(getCurrentWeek());
         }}>
         <Text style={styles.today}>Today</Text>
       </TouchableOpacity>
@@ -30,18 +30,24 @@ const DatePicker = ({
 
   const renderButtons = () => (
     <View style={styles.footer}>
-      <View style={styles.apply}>
-        <Button
-          title="Apply"
-          color={'#FFFF'}
-          onPress={() => {
-            setSelectedWeek(week);
-            setSelectedDate(selected);
-            onPressClose();
-          }}
-        />
-      </View>
-      <Button title="Cancel" color={'#3393ba'} onPress={onPressClose} />
+      <TouchableOpacity
+        style={styles.apply}
+        onPress={() => {
+          setSelectedWeek(week);
+          setSelectedDate(selected);
+          onPressClose();
+        }}>
+        <Text style={styles.applyTxt}>Apply</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={[styles.apply, styles.cancel]}
+        onPress={() => {
+          setSelectedWeek(week);
+          setSelectedDate(selected);
+          onPressClose();
+        }}>
+        <Text style={styles.cancelTxt}>Cancel</Text>
+      </TouchableOpacity>
     </View>
   );
   return (

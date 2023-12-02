@@ -15,7 +15,7 @@ const HomeScreen = () => {
   const [selectedDate, setSelectedDate] = useState<string>(currentDate());
 
   const initialScrollIndex = useMemo(
-    () => selectedWeek.findIndex(e => e === selectedDate) - 1 || 0,
+    () => selectedWeek.findIndex(e => e === selectedDate) - 1,
     [selectedWeek, selectedDate],
   );
 
@@ -98,26 +98,28 @@ const HomeScreen = () => {
         horizontal
         style={styles.container}
       />
-      <FlatList
-        data={data}
-        renderItem={renderSubjects}
-        ref={flatListRef}
-        horizontal
-        pagingEnabled
-        showsHorizontalScrollIndicator={false}
-        initialScrollIndex={initialScrollIndex}
-        getItemLayout={(_, index) => ({
-          length: widthOfEachItem + 2 * marginOnEachSideOfEachItem, //  WIDTH + (MARGIN_HORIZONTAL * 2)
-          offset: (widthOfEachItem + 2 * marginOnEachSideOfEachItem) * index, //  ( WIDTH + (MARGIN_HORIZONTAL*2) ) * (index)
-          index,
-        })}
-        onMomentumScrollEnd={ev => {
-          const newIndex = Math.round(
-            ev.nativeEvent.contentOffset.x / widthOfEachItem,
-          );
-          setSelectedDate(selectedWeek[newIndex + 1]);
-        }}
-      />
+      {initialScrollIndex > -1 && (
+        <FlatList
+          data={data}
+          renderItem={renderSubjects}
+          ref={flatListRef}
+          horizontal
+          pagingEnabled
+          showsHorizontalScrollIndicator={false}
+          initialScrollIndex={initialScrollIndex}
+          getItemLayout={(_, index) => ({
+            length: widthOfEachItem + 2 * marginOnEachSideOfEachItem, //  WIDTH + (MARGIN_HORIZONTAL * 2)
+            offset: (widthOfEachItem + 2 * marginOnEachSideOfEachItem) * index, //  ( WIDTH + (MARGIN_HORIZONTAL*2) ) * (index)
+            index,
+          })}
+          onMomentumScrollEnd={ev => {
+            const newIndex = Math.round(
+              ev.nativeEvent.contentOffset.x / widthOfEachItem,
+            );
+            setSelectedDate(selectedWeek[newIndex + 1]);
+          }}
+        />
+      )}
       {showCalendar && (
         <DatePicker
           onPressClose={() => setShowCalendar(false)}
